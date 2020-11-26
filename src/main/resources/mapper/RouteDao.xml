@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.RouteDao">
+
+    <resultMap type="com.dwh.backstage.entity.Route" id="RouteMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="routename" column="routename" jdbcType="VARCHAR"/>
+        <result property="routeprice" column="routeprice" jdbcType="NUMERIC"/>
+        <result property="routetypeid" column="routetypeId" jdbcType="INTEGER"/>
+        <result property="imgurl" column="imgurl" jdbcType="VARCHAR"/>
+        <result property="toaddress" column="toaddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RouteMap">
+        select id,
+               routename,
+               routeprice,
+               routetypeId,
+               imgurl,
+               toaddress
+        from my_travel.route
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RouteMap">
+        select id,
+               routename,
+               routeprice,
+               routetypeId,
+               imgurl,
+               toaddress
+        from my_travel.route
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RouteMap">
+        select
+        id, routename, routeprice, routetypeId, imgurl, toaddress
+        from my_travel.route
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="routename != null and routename != ''">
+                and routename = #{routename}
+            </if>
+            <if test="routeprice != null">
+                and routeprice = #{routeprice}
+            </if>
+            <if test="routetypeid != null">
+                and routetypeId = #{routetypeid}
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                and imgurl = #{imgurl}
+            </if>
+            <if test="toaddress != null and toaddress != ''">
+                and toaddress = #{toaddress}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.route(routename, routeprice, routetypeId, imgurl, toaddress)
+        values (#{routename}, #{routeprice}, #{routetypeid}, #{imgurl}, #{toaddress})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.route(routename, routeprice, routetypeId, imgurl, toaddress)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.routename}, #{entity.routeprice}, #{entity.routetypeid}, #{entity.imgurl}, #{entity.toaddress})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.route(routename, routeprice, routetypeId, imgurl, toaddress)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.routename}, #{entity.routeprice}, #{entity.routetypeid}, #{entity.imgurl}, #{entity.toaddress})
+        </foreach>
+        on duplicate key update
+        routename = values(routename) , routeprice = values(routeprice) , routetypeId = values(routetypeId) , imgurl =
+        values(imgurl) , toaddress = values(toaddress)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.route
+        <set>
+            <if test="routename != null and routename != ''">
+                routename = #{routename},
+            </if>
+            <if test="routeprice != null">
+                routeprice = #{routeprice},
+            </if>
+            <if test="routetypeid != null">
+                routetypeId = #{routetypeid},
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                imgurl = #{imgurl},
+            </if>
+            <if test="toaddress != null and toaddress != ''">
+                toaddress = #{toaddress},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.route
+        where id = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="RouteMap">
+        select * from route
+    </select>
+
+</mapper>

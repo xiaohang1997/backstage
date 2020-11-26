@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.RoleuserDao">
+
+    <resultMap type="com.dwh.backstage.entity.Roleuser" id="RoleuserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="roleid" column="roleId" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RoleuserMap">
+        select id,
+               roleId,
+               userId
+        from my_travel.roleuser
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RoleuserMap">
+        select id,
+               roleId,
+               userId
+        from my_travel.roleuser
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RoleuserMap">
+        select
+        id, roleId, userId
+        from my_travel.roleuser
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="roleid != null">
+                and roleId = #{roleid}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.roleuser(roleId, userId)
+        values (#{roleid}, #{userid})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.roleuser(roleId, userId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.roleid}, #{entity.userid})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.roleuser(roleId, userId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.roleid}, #{entity.userid})
+        </foreach>
+        on duplicate key update
+        roleId = values(roleId) , userId = values(userId)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.roleuser
+        <set>
+            <if test="roleid != null">
+                roleId = #{roleid},
+            </if>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.roleuser
+        where id = #{id}
+    </delete>
+
+
+    <select id="findAll" resultType="com.dwh.backstage.vo.RoleUserVO">
+        select roleuser.id, userId, rolename
+        from roleuser, role
+        where roleuser.roleId = role.id
+    </select>
+</mapper>

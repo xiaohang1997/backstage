@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.ItineraryDao">
+
+    <resultMap type="com.dwh.backstage.entity.Itinerary" id="ItineraryMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="day" column="day" jdbcType="VARCHAR"/>
+        <result property="routeid" column="routeId" jdbcType="INTEGER"/>
+        <result property="todayitinerary" column="todayItinerary" jdbcType="VARCHAR"/>
+        <result property="sceneid" column="sceneId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ItineraryMap">
+        select id,
+               name,
+               day,
+               routeId,
+               todayItinerary,
+               sceneId
+        from my_travel.itinerary
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ItineraryMap">
+        select id,
+               name,
+               day,
+               routeId,
+               todayItinerary,
+               sceneId
+        from my_travel.itinerary
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ItineraryMap">
+        select
+        id, name, day, routeId, todayItinerary, sceneId
+        from my_travel.itinerary
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="day != null and day != ''">
+                and day = #{day}
+            </if>
+            <if test="routeid != null">
+                and routeId = #{routeid}
+            </if>
+            <if test="todayitinerary != null and todayitinerary != ''">
+                and todayItinerary = #{todayitinerary}
+            </if>
+            <if test="sceneid != null">
+                and sceneId = #{sceneid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.itinerary(name, day, routeId, todayItinerary, sceneId)
+        values (#{name}, #{day}, #{routeid}, #{todayitinerary}, #{sceneid})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.itinerary(name, day, routeId, todayItinerary, sceneId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.day}, #{entity.routeid}, #{entity.todayitinerary}, #{entity.sceneid})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.itinerary(name, day, routeId, todayItinerary, sceneId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.day}, #{entity.routeid}, #{entity.todayitinerary}, #{entity.sceneid})
+        </foreach>
+        on duplicate key update
+        name = values(name) , day = values(day) , routeId = values(routeId) , todayItinerary = values(todayItinerary) ,
+        sceneId = values(sceneId)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.itinerary
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="day != null and day != ''">
+                day = #{day},
+            </if>
+            <if test="routeid != null">
+                routeId = #{routeid},
+            </if>
+            <if test="todayitinerary != null and todayitinerary != ''">
+                todayItinerary = #{todayitinerary},
+            </if>
+            <if test="sceneid != null">
+                sceneId = #{sceneid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.itinerary
+        where id = #{id}
+    </delete>
+
+</mapper>

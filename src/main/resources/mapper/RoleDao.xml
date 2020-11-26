@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.RoleDao">
+
+    <resultMap type="com.dwh.backstage.entity.Role" id="RoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="rolename" column="rolename" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RoleMap">
+        select id,
+               rolename
+        from my_travel.role
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RoleMap">
+        select id,
+               rolename
+        from my_travel.role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RoleMap">
+        select
+        id, rolename
+        from my_travel.role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="rolename != null and rolename != ''">
+                and rolename = #{rolename}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.role(rolename)
+        values (#{rolename})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.role(rolename)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.rolename})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.role(rolename)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.rolename})
+        </foreach>
+        on duplicate key update
+        rolename = values(rolename)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.role
+        <set>
+            <if test="rolename != null and rolename != ''">
+                rolename = #{rolename},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.role
+        where id = #{id}
+    </delete>
+
+</mapper>

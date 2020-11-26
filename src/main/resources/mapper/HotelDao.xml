@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.HotelDao">
+
+    <resultMap type="com.dwh.backstage.entity.Hotel" id="HotelMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="hotelname" column="hotelname" jdbcType="VARCHAR"/>
+        <result property="hotelintroduce" column="hotelintroduce" jdbcType="VARCHAR"/>
+        <result property="hoteladdress" column="hoteladdress" jdbcType="VARCHAR"/>
+        <result property="hoteltypeid" column="hoteltypeId" jdbcType="INTEGER"/>
+        <result property="imgurl" column="imgurl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HotelMap">
+        select id,
+               hotelname,
+               hotelintroduce,
+               hoteladdress,
+               hoteltypeId,
+               imgurl
+        from my_travel.hotel
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HotelMap">
+        select id,
+               hotelname,
+               hotelintroduce,
+               hoteladdress,
+               hoteltypeId,
+               imgurl
+        from my_travel.hotel
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HotelMap">
+        select
+        id, hotelname, hotelintroduce, hoteladdress, hoteltypeId, imgurl
+        from my_travel.hotel
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="hotelname != null and hotelname != ''">
+                and hotelname = #{hotelname}
+            </if>
+            <if test="hotelintroduce != null and hotelintroduce != ''">
+                and hotelintroduce = #{hotelintroduce}
+            </if>
+            <if test="hoteladdress != null and hoteladdress != ''">
+                and hoteladdress = #{hoteladdress}
+            </if>
+            <if test="hoteltypeid != null">
+                and hoteltypeId = #{hoteltypeid}
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                and imgurl = #{imgurl}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.hotel(hotelname, hotelintroduce, hoteladdress, hoteltypeId, imgurl)
+        values (#{hotelname}, #{hotelintroduce}, #{hoteladdress}, #{hoteltypeid}, #{imgurl})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.hotel(hotelname, hotelintroduce, hoteladdress, hoteltypeId, imgurl)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelname}, #{entity.hotelintroduce}, #{entity.hoteladdress}, #{entity.hoteltypeid},
+            #{entity.imgurl})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.hotel(hotelname, hotelintroduce, hoteladdress, hoteltypeId, imgurl)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelname}, #{entity.hotelintroduce}, #{entity.hoteladdress}, #{entity.hoteltypeid},
+            #{entity.imgurl})
+        </foreach>
+        on duplicate key update
+        hotelname = values(hotelname) , hotelintroduce = values(hotelintroduce) , hoteladdress = values(hoteladdress) ,
+        hoteltypeId = values(hoteltypeId) , imgurl = values(imgurl)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.hotel
+        <set>
+            <if test="hotelname != null and hotelname != ''">
+                hotelname = #{hotelname},
+            </if>
+            <if test="hotelintroduce != null and hotelintroduce != ''">
+                hotelintroduce = #{hotelintroduce},
+            </if>
+            <if test="hoteladdress != null and hoteladdress != ''">
+                hoteladdress = #{hoteladdress},
+            </if>
+            <if test="hoteltypeid != null">
+                hoteltypeId = #{hoteltypeid},
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                imgurl = #{imgurl},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.hotel
+        where id = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="HotelMap">
+        select * from hotel
+    </select>
+</mapper>

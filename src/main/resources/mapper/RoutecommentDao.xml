@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.RoutecommentDao">
+
+    <resultMap type="com.dwh.backstage.entity.Routecomment" id="RoutecommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="routeid" column="routeId" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createdate" column="createdate" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RoutecommentMap">
+        select id,
+               routeId,
+               userId,
+               content,
+               createdate
+        from my_travel.routecomment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RoutecommentMap">
+        select id,
+               routeId,
+               userId,
+               content,
+               createdate
+        from my_travel.routecomment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RoutecommentMap">
+        select
+        id, routeId, userId, content, createdate
+        from my_travel.routecomment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="routeid != null">
+                and routeId = #{routeid}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="createdate != null">
+                and createdate = #{createdate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.routecomment(routeId, userId, content, createdate)
+        values (#{routeid}, #{userid}, #{content}, #{createdate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.routecomment(routeId, userId, content, createdate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.routeid}, #{entity.userid}, #{entity.content}, #{entity.createdate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.routecomment(routeId, userId, content, createdate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.routeid}, #{entity.userid}, #{entity.content}, #{entity.createdate})
+        </foreach>
+        on duplicate key update
+        routeId = values(routeId) , userId = values(userId) , content = values(content) , createdate =
+        values(createdate)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.routecomment
+        <set>
+            <if test="routeid != null">
+                routeId = #{routeid},
+            </if>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="createdate != null">
+                createdate = #{createdate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.routecomment
+        where id = #{id}
+    </delete>
+
+</mapper>

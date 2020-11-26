@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.AuthorityroleDao">
+
+    <resultMap type="com.dwh.backstage.entity.Authorityrole" id="AuthorityroleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="authorityid" column="authorityId" jdbcType="INTEGER"/>
+        <result property="roleid" column="roleId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AuthorityroleMap">
+        select id,
+               authorityId,
+               roleId
+        from my_travel.authorityrole
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AuthorityroleMap">
+        select id,
+               authorityId,
+               roleId
+        from my_travel.authorityrole
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AuthorityroleMap">
+        select
+        id, authorityId, roleId
+        from my_travel.authorityrole
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="authorityid != null">
+                and authorityId = #{authorityid}
+            </if>
+            <if test="roleid != null">
+                and roleId = #{roleid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.authorityrole(authorityId, roleId)
+        values (#{authorityid}, #{roleid})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.authorityrole(authorityId, roleId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.authorityid}, #{entity.roleid})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.authorityrole(authorityId, roleId)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.authorityid}, #{entity.roleid})
+        </foreach>
+        on duplicate key update
+        authorityId = values(authorityId) , roleId = values(roleId)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.authorityrole
+        <set>
+            <if test="authorityid != null">
+                authorityId = #{authorityid},
+            </if>
+            <if test="roleid != null">
+                roleId = #{roleid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.authorityrole
+        where id = #{id}
+    </delete>
+
+</mapper>

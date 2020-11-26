@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.BlogDao">
+
+    <resultMap type="com.dwh.backstage.entity.Blog" id="BlogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="blogname" column="blogname" jdbcType="VARCHAR"/>
+        <result property="blogcontent" column="blogcontent" jdbcType="OTHER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="createdate" column="createdate" jdbcType="OTHER"/>
+        <result property="imgurl" column="imgurl" jdbcType="VARCHAR"/>
+        <result property="likecount" column="likecount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BlogMap">
+        select id,
+               blogname,
+               blogcontent,
+               userId,
+               createdate,
+               imgurl,
+               likecount
+        from my_travel.blog
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BlogMap">
+        select id,
+               blogname,
+               blogcontent,
+               userId,
+               createdate,
+               imgurl,
+               likecount
+        from my_travel.blog
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BlogMap">
+        select
+        id, blogname, blogcontent, userId, createdate, imgurl, likecount
+        from my_travel.blog
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="blogname != null and blogname != ''">
+                and blogname = #{blogname}
+            </if>
+            <if test="blogcontent != null">
+                and blogcontent = #{blogcontent}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="createdate != null">
+                and createdate = #{createdate}
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                and imgurl = #{imgurl}
+            </if>
+            <if test="likecount != null">
+                and likecount = #{likecount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.blog(blogname, blogcontent, userId, createdate, imgurl, likecount)
+        values (#{blogname}, #{blogcontent}, #{userid}, #{createdate}, #{imgurl}, #{likecount})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.blog(blogname, blogcontent, userId, createdate, imgurl, likecount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.blogname}, #{entity.blogcontent}, #{entity.userid}, #{entity.createdate}, #{entity.imgurl},
+            #{entity.likecount})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into my_travel.blog(blogname, blogcontent, userId, createdate, imgurl, likecount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.blogname}, #{entity.blogcontent}, #{entity.userid}, #{entity.createdate}, #{entity.imgurl},
+            #{entity.likecount})
+        </foreach>
+        on duplicate key update
+        blogname = values(blogname) , blogcontent = values(blogcontent) , userId = values(userId) , createdate =
+        values(createdate) , imgurl = values(imgurl) , likecount = values(likecount)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.blog
+        <set>
+            <if test="blogname != null and blogname != ''">
+                blogname = #{blogname},
+            </if>
+            <if test="blogcontent != null">
+                blogcontent = #{blogcontent},
+            </if>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="createdate != null">
+                createdate = #{createdate},
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                imgurl = #{imgurl},
+            </if>
+            <if test="likecount != null">
+                likecount = #{likecount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.blog
+        where id = #{id}
+    </delete>
+
+</mapper>

@@ -148,4 +148,8 @@
         where id = #{id}
     </delete>
 
+    <select id="findAll" resultMap="RoomMap">
+        select * from room
+    </select>
+
 </mapper>

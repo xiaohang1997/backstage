@@ -30,7 +30,6 @@ public class Room implements Serializable {
 
     private String imgurl;
 
-
     public Integer getId() {
         return id;
     }

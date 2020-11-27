@@ -1,6 +1,8 @@
 package com.dwh.backstage.service;
 
+import com.dwh.backstage.entity.Hotel;
 import com.dwh.backstage.entity.Room;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -52,5 +54,7 @@ public interface RoomService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    PageInfo<Room> findAll(int page, int limit);
 
 }

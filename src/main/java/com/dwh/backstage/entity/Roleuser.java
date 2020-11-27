@@ -11,8 +11,6 @@ import java.io.Serializable;
 public class Roleuser implements Serializable {
     private static final long serialVersionUID = -91147256765419597L;
 
-
-
     private Integer id;
 
     private Integer roleid;

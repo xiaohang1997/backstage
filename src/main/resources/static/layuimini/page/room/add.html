@@ -20,49 +20,66 @@
         <label class="layui-form-label required">id</label>
         <div class="layui-input-block">
             <input type="text" name="id" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">hotelname</label>
+        <label class="layui-form-label required">hotelid</label>
         <div class="layui-input-block">
-            <input type="text" name="hotelname" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+            <input type="text" name="hotelid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">hotelintroduce</label>
+        <label class="layui-form-label required">roomname</label>
         <div class="layui-input-block">
             <input type="text" name="hotelintroduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">roomintroduce</label>
+        <div class="layui-input-block">
+            <input type="text" name="roomintroduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">hoteladdress</label>
+        <label class="layui-form-label required">roomprice</label>
         <div class="layui-input-block">
-            <input type="text" name="hoteladdress" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+            <input type="text" name="roomprice" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">roomnumber</label>
+        <div class="layui-input-block">
+            <input type="text" name="roomnumber" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">roomnumber</label>
+        <div class="layui-input-block">
+            <input type="text" name="roomnumber" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
         </div>
     </div>
 
-	<div class="layui-form-item">
-	    <label class="layui-form-label">hoteltype</label>
-	    <div class="layui-input-block">
-	        <input type="radio" name="hoteltypeid" value="1" title="民宿" checked="">
-	        <input type="radio" name="hoteltypeid" value="2" title="别墅">
-            <input type="radio" name="hoteltypeid" value="3" title="公寓">
-            <input type="radio" name="hoteltypeid" value="3" title="酒店">
-            <input type="radio" name="hoteltypeid" value="3" title="海洋公寓">
-	    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">startdate</label>
+        <div class="layui-input-inline">
+            <input type="text" name="startdate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">enddate</label>
+        <div class="layui-input-inline">
+            <input type="text" name="enddate" id="date2" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+        </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">imgurl</label>
         <div class="layui-input-block">
             <input type="text" name="imgurl" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
         </div>
     </div>
 
-	
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -79,14 +96,15 @@
             $ = layui.$;
 		
 		laydate.render({
-		    elem: '#date' //指定元素
+		    elem: '#date',       //指定元素
+            elem: '#date2'
 		  });
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
 		$.ajax({
 		             type: "POST",
-		             url: "http://localhost:8080/hotel/add",
+		             url: "http://localhost:8080/room/add",
 		             data: JSON.stringify(data.field),
 		             contentType: "application/json",
 		             success: function(data){

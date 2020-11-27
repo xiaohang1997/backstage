@@ -79,4 +79,6 @@ public interface RoomDao {
      */
     int deleteById(Integer id);
 
+    List<Room> findAll();
+
 }

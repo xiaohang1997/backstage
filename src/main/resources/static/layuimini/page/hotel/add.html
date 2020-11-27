@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form" id="form1">
     <div class="layui-form-item">
         <label class="layui-form-label required">id</label>
         <div class="layui-input-block">
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-	
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -72,12 +72,12 @@
 <script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'laydate'], function () {
-	
+
         var form = layui.form,
             layer = layui.layer,
 			laydate = layui.laydate,
             $ = layui.$;
-		
+
 		laydate.render({
 		    elem: '#date' //指定元素
 		  });
@@ -90,6 +90,7 @@
 		             data: JSON.stringify(data.field),
 		             contentType: "application/json",
 		             success: function(data){
+		                 alert(data)
 		                         if(data.msg == "success"){
 									 var index = layer.alert("提交成功", function(){
 										 layer.close(index);

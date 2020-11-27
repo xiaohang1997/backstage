@@ -1,6 +1,10 @@
 package com.dwh.backstage.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Order)实体类
@@ -18,8 +22,9 @@ public class Order implements Serializable {
     private String ordername;
 
     private String ordertype;
-
-    private Object createdate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdate;
 
     private Double price;
 
@@ -64,7 +69,7 @@ public class Order implements Serializable {
         return createdate;
     }
 
-    public void setCreatedate(Object createdate) {
+    public void setCreatedate(Date createdate) {
         this.createdate = createdate;
     }
 

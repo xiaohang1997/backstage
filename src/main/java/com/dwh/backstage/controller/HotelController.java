@@ -1,16 +1,19 @@
 package com.dwh.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.dwh.backstage.entity.Hotel;
-import com.dwh.backstage.entity.Roleuser;
 import com.dwh.backstage.service.HotelService;
 import com.dwh.backstage.util.JsonResult;
 import com.dwh.backstage.vo.ResultVO;
-import com.dwh.backstage.vo.RoleUserVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 /**
@@ -69,6 +72,32 @@ public class HotelController {
     public JSONObject add(@RequestBody Hotel hotel){
         hotelService.insert(hotel);
         return JsonResult.sendSuccess();
+    }
+
+    @RequestMapping("/test")
+    public String test(@RequestParam(value = "file",required = false) MultipartFile file){
+        try {
+            String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+            String accessKeyId = "LTAI4GBA49LNsP4SHm4P2bDR";
+            String accessKeySecret = "PIbkdgWcqtAvvX1lr700OCvCGblj11";
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+
+            String fileName = file.getOriginalFilename();
+            if(fileName.indexOf("\\") != -1){
+                fileName = "uploadImg/"+fileName.substring(fileName.lastIndexOf("\\"));
+            }
+
+            // <yourObjectName>表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
+            PutObjectRequest putObjectRequest = new PutObjectRequest("m-trip", fileName, new ByteArrayInputStream(file.getBytes()));
+            // 上传字符串。
+            ossClient.putObject(putObjectRequest);
+            // 关闭OSSClient。
+            ossClient.shutdown();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "上传失败";
+        }
+        return "上传成功!";
     }
 
     @RequestMapping("/update")

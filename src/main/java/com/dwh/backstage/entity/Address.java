@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Address)实体类
  *
  * @author makejava
- * @since 2020-11-19 23:24:23
+ * @since 2020-11-27 09:00:29
  */
 public class Address implements Serializable {
-    private static final long serialVersionUID = -39250027757305097L;
+    private static final long serialVersionUID = 732054286487940676L;
 
     private Integer id;
 

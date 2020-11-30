@@ -64,7 +64,7 @@ public class UserAdminController {
     @RequestMapping("/getSession")
     public String getSession(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
-        return session.getAttribute("username").toString();
+        return (String) session.getAttribute("username");
     }
 
 }

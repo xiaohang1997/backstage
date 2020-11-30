@@ -143,7 +143,12 @@
                 // data : data.field,
                 //请求成功
                 success : function(result) {
-                    session = result;
+                    // session = result;
+                    if (result == "admin"){
+                        $("#log2").attr("style","display:none;");
+                    }else {
+                        $("#log1").attr("style","display:none;");
+                    }
                 },
                 //请求失败，包含具体的错误信息
                 error : function(e){
@@ -151,11 +156,11 @@
                     console.log(e.responseText);
                 }
             });
-            if (session){
-                $("#log2").attr("style","display:none;");
-            }else {
-                $("#log1").attr("style","display:none;");
-            }
+            // if (session){
+            //     $("#log2").attr("style","display:none;");
+            // }else {
+            //     $("#log1").attr("style","display:none;");
+            // }
         });
 
 
@@ -183,7 +188,6 @@
         });
 
         $('.login-out').on("click", function () {
-            $.session.clear();
             layer.msg('退出登录成功', function () {
                 window.location = 'page/login.html';
             });

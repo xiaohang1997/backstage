@@ -25,21 +25,35 @@
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">userid</label>
-		<div class="layui-input-block">
-			<input  id="userid" type="text" name="userid"  class="layui-input">
-			<tip>userid</tip>
-		</div>
+	<label class="layui-form-label required">name</label>
+	<div class="layui-input-block">
+		<input id="name" type="text" name="name" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 	</div>
-
-	<div class="layui-form-item">
-		<label class="layui-form-label">role</label>
-		<div class="layui-input-block">
-			<input type="radio" name="roleid" value="1" title="用户" checked="">
-			<input type="radio" name="roleid" value="2" title="管理员">
-		</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label required">day</label>
+	<div class="layui-input-block">
+		<input id="day" type="text" name="day" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 	</div>
-
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label required">routeid</label>
+	<div class="layui-input-block">
+		<input id="routeid" type="text" name="routeid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+	</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label required">todayitinerary</label>
+	<div class="layui-input-block">
+		<input id="todayitinerary" type="text" name="todayitinerary" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+	</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label required">sceneid</label>
+	<div class="layui-input-block">
+		<input id="sceneid" type="text" name="sceneid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+	</div>
+</div>
 	<div class="layui-form-item">
 		<div class="layui-input-block">
 			<button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -65,19 +79,23 @@
 			return result ? result.pop() : ""
 		}
 		var id = getCookieValue("id");
-		var userid = getCookieValue("userid");
+
 		$("#id").val(id);
 		$("#id").attr("readonly",true);
-		$("#userid").val(userid);
-		$("#userid").attr("readonly",true);
+		$("#name").val(getCookieValue("name"));
+		$("#day").val(getCookieValue("day"));
+		$("#routeid").val(getCookieValue("routeid"));
+		$("#todayitinerary").val(getCookieValue("todayitinerary"));
+		$("#sceneid").val(getCookieValue("sceneid"));
+
 
 		//监听提交
 		form.on('submit(saveBtn)', function (data) {
 			data.field.id = id;
-			data.field.userid = userid;
+
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8082/roleuser/update",
+				url: "http://localhost:8082/itinerary/update",
 				data: JSON.stringify(data.field),
 				contentType: "application/json",
 				success: function(data){
@@ -86,6 +104,7 @@
 							layer.close(index);
 							var iframeIndex = parent.layer.getFrameIndex(window.name);
 							parent.layer.close(iframeIndex);
+							parent.location.reload();
 						});
 					}
 					else{
@@ -93,6 +112,7 @@
 							layer.close(index);
 						});
 					}
+
 				}
 			});
 		});

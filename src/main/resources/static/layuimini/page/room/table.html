@@ -39,7 +39,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://localhost:8080/room/findAll',
+            url: 'http://localhost:8082/room/findAll',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -112,7 +112,7 @@
                 layer.confirm("确定要删除？", function (index) {
                     $.ajax({
                         type: "get",
-                        url: "http://localhost:8080/room/deleteMany?data=" + myArray,
+                        url: "http://localhost:8082/room/deleteMany?data=" + myArray,
                         // data: {"data" : myArray},
                         // contentType: "application/text",
                         // dataType : "text",
@@ -150,7 +150,11 @@
             if (obj.event === 'edit') {
                 //cookie
                 document.cookie = "id=" + obj.data.id + "; path=/layuimini/page/room/edit.html";
-
+                document.cookie = "hotelname=" + obj.data.hotelname + "; path=/layuimini/page/room/edit.html";
+                document.cookie = "hotelintroduce=" + obj.data.hotelintroduce + "; path=/layuimini/page/room/edit.html";
+                document.cookie = "hoteladdress=" + obj.data.hoteladdress + "; path=/layuimini/page/room/edit.html";
+                document.cookie = "hoteltypeid=" + obj.data.hoteltypeid + "; path=/layuimini/page/room/edit.html";
+                document.cookie = "imgurl=" + obj.data.imgurl + "; path=/layuimini/page/room/edit.html";
 
                 var index = layer.open({
                     title: '编辑hotel',
@@ -169,7 +173,7 @@
                 layer.confirm('真的删除行么', function (index) {
 					$.ajax({
 					             type: "post",
-					             url: "http://localhost:8080/room/deleteById",
+					             url: "http://localhost:8082/room/deleteById",
 					             data: {'id' : obj.data.id},
 					             // contentType: "application/text",
 								 // dataType : "text",

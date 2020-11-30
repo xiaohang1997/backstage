@@ -3,6 +3,8 @@ package com.dwh.backstage.service.impl;
 import com.dwh.backstage.dao.SceneDao;
 import com.dwh.backstage.entity.Scene;
 import com.dwh.backstage.service.SceneService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,5 +77,13 @@ public class SceneServiceImpl implements SceneService {
     @Override
     public boolean deleteById(Integer id) {
         return this.sceneDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public PageInfo<Scene> findAll(int page, int limit) {
+        PageHelper.startPage(page, limit);
+        List  list = sceneDao.findAll();
+        PageInfo result = new PageInfo(list);
+        return result;
     }
 }

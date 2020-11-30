@@ -55,7 +55,7 @@
         form.on('submit(saveBtn)', function (data) {
 		$.ajax({
 		             type: "POST",
-		             url: "http://localhost:8080/roleuser/add",
+		             url: "http://localhost:8082/roleuser/add",
 		             data: JSON.stringify(data.field),
 		             contentType: "application/json",
 		             success: function(data){

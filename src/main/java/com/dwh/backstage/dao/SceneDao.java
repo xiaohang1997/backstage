@@ -1,5 +1,6 @@
 package com.dwh.backstage.dao;
 
+import com.dwh.backstage.entity.Itinerary;
 import com.dwh.backstage.entity.Scene;
 import org.apache.ibatis.annotations.Param;
 
@@ -78,5 +79,7 @@ public interface SceneDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    List<Scene> findAll();
 
 }

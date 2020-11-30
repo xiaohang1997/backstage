@@ -117,4 +117,7 @@
         where id = #{id}
     </delete>
 
+    <select id="findAll" resultMap="ItineraryMap">
+        select * from itinerary
+    </select>
 </mapper>

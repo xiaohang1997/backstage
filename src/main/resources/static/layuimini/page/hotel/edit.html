@@ -28,27 +28,27 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label required">hotelname</label>
 		<div class="layui-input-block">
-			<input type="text" name="hotelname" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
+			<input id="hotelname" type="text" name="hotelname" lay-verify="required" lay-reqtext="不能为空" value="" class="layui-input">
 
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label required">hotelintroduce</label>
 		<div class="layui-input-block">
-			<input type="text" name="hotelintroduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+			<input id="hotelintroduce" type="text" name="hotelintroduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label required">hoteladdress</label>
 		<div class="layui-input-block">
-			<input type="text" name="hoteladdress" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+			<input id="hoteladdress" type="text" name="hoteladdress" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">hoteltypeid</label>
-		<div class="layui-input-block">
+		<div class="layui-input-block" id="hoteltypeid">
 			<input type="radio" name="hoteltypeid" value="1" title="1" checked="">
 			<input type="radio" name="hoteltypeid" value="2" title="2">
 			<input type="radio" name="hoteltypeid" value="3" title="3">
@@ -59,10 +59,40 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label required">imgurl</label>
 		<div class="layui-input-block">
-			<input type="text" name="imgurl" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
+			<input id="imgurl" type="text" name="imgurl" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 		</div>
 	</div>
+
+
+	<form id= "uploadForm" enctype="multipart/form-data" style="padding-left: 80px">
+		<!--		<p >指定文件名： <input type="text" name="filename" value= ""/></p >-->
+		<p >上传文件： <input type="file" name="file"/></p>
+		<input type="button" value="上传" onclick="javascript:doUpload()" />
+	</form>
+
+	<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" ></script>
+	<script>
+		function doUpload() {
+			alert("upload")
+			var formData = new FormData($("#uploadForm")[0])
+			$.ajax({
+				url: 'http://localhost:8082/picUpdate' ,
+				type: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					$("#headimg").val(data);
+					alert(data);
+				},
+				error: function (error) {
+					alert(error);
+				}
+			});
+		}
+	</script>
+
+
 	<div class="layui-form-item">
 		<div class="layui-input-block">
 			<button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -91,8 +121,11 @@
 
 		$("#id").val(id);
 		$("#id").attr("readonly",true);
-		// $("#userid").val(userid);
-		// $("#userid").attr("readonly",true);
+		$("#hotelname").val(getCookieValue("hotelname"));
+		$("#hotelintroduce").val(getCookieValue("hotelintroduce"));
+		$("#hoteladdress").val(getCookieValue("hoteladdress"));
+		$("#hoteltypeid").val(getCookieValue("hoteltypeid"));
+		$("#imgurl").val(getCookieValue("imgurl"));
 
 		//监听提交
 		form.on('submit(saveBtn)', function (data) {
@@ -100,7 +133,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8080/hotel/update",
+				url: "http://localhost:8082/hotel/update",
 				data: JSON.stringify(data.field),
 				contentType: "application/json",
 				success: function(data){

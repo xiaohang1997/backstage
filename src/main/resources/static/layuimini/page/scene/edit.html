@@ -25,58 +25,35 @@
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label required">account</label>
+		<label class="layui-form-label required">introduce</label>
 		<div class="layui-input-block">
-			<input id="account" type="text" name="account" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入用户名" value="" class="layui-input">
-			<tip>填写账号的account。</tip>
+			<input id="introduce" type="text" name="introduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label required">username</label>
+		<label class="layui-form-label required">scenename</label>
 		<div class="layui-input-block">
-			<input id="username" type="text" name="username" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入用户名" value="" class="layui-input">
-			<tip>填写自己管理账号的名称。</tip>
+			<input id="scenename" type="text" name="scenename" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label required">password</label>
+		<label class="layui-form-label required">address</label>
 		<div class="layui-input-block">
-			<input id="password" type="text" name="password" lay-verify="required" lay-reqtext="不能为空" placeholder="请输入密码" value="" class="layui-input">
+			<input id="address" type="text" name="address" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">gender</label>
-		<div class="layui-input-block" id="gender">
-			<input type="radio" name="gender" value="男" title="男" checked="">
-			<input type="radio" name="gender" value="女" title="女">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">birthdate</label>
-		<div class="layui-input-inline">
-			<input type="text" name="birthdate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">email</label>
+		<label class="layui-form-label required">imgurl</label>
 		<div class="layui-input-block">
-			<input id="email" type="email" name="email" placeholder="请输入邮箱" value="" class="layui-input">
+			<input id="imgurl" type="text" name="routeid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 		</div>
 	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">headimg</label>
-		<div class="layui-input-block">
-			<input id="headimg" type="text" name="headimg" placeholder="请输入头像路径" value="" class="layui-input" >
-		</div>
-	</div>
-
 
 	<form id= "uploadForm" enctype="multipart/form-data" style="padding-left: 80px">
-<!--		<p >指定文件名： <input type="text" name="filename" value= ""/></p >-->
-			<p >上传文件： <input type="file" name="file"/></p>
-			<input type="button" value="上传" onclick="javascript:doUpload()" />
+		<!--		<p >指定文件名： <input type="text" name="filename" value= ""/></p >-->
+		<p >上传文件： <input type="file" name="file"/></p>
+		<input type="button" value="上传" onclick="javascript:doUpload()" />
 	</form>
-
 	<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" ></script>
 	<script>
 		function doUpload() {
@@ -89,8 +66,7 @@
 				processData: false,
 				contentType: false,
 				success: function (data) {
-					$("#headimg").val(data);
-					alert(data);
+					$("#imgurl").val(data);
 				},
 				error: function (error) {
 					alert(error);
@@ -118,6 +94,8 @@
 		laydate.render({
 			elem: '#date' //指定元素
 		});
+
+		//cookie
 		function getCookieValue(name) {
 			let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
 			return result ? result.pop() : ""
@@ -125,29 +103,27 @@
 		var id = getCookieValue("id");
 		$("#id").val(id);
 		$("#id").attr("readonly",true);
-		$("#account").val(getCookieValue("account"));
-		$("#username").val(getCookieValue("username"));
-		$("#password").val(getCookieValue("password"));
-		$("#gender").val(getCookieValue("password"));
-		$("#date").val(getCookieValue("birthdate"));
-		$("#email").val(getCookieValue("email"));
-		$("#headimg").val(getCookieValue("headimg"));
+		$("#introduce").val(getCookieValue("introduce"));
+		$("#scenename").val(getCookieValue("scenename"));
+		$("#address").val(getCookieValue("address"));
+		$("#imgurl").val(getCookieValue("imgurl"));
 
 		//监听提交
 		form.on('submit(saveBtn)', function (data) {
 			data.field.id = id;
-			// alert(JSON.stringify(data.field));
+
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8082/user/updateUser",
+				url: "http://localhost:8082/scene/update",
 				data: JSON.stringify(data.field),
 				contentType: "application/json",
 				success: function(data){
-					if(data != null){
+					if(data.msg == "success"){
 						var index = layer.alert("提交成功", function(){
 							layer.close(index);
 							var iframeIndex = parent.layer.getFrameIndex(window.name);
 							parent.layer.close(iframeIndex);
+							parent.location.reload();
 						});
 					}
 					else{
@@ -155,6 +131,7 @@
 							layer.close(index);
 						});
 					}
+
 				}
 			});
 		});

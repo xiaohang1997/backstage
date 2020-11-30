@@ -1,8 +1,11 @@
 package com.dwh.backstage.service.impl;
 
 import com.dwh.backstage.dao.ItineraryDao;
+import com.dwh.backstage.entity.Hotel;
 import com.dwh.backstage.entity.Itinerary;
 import com.dwh.backstage.service.ItineraryService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,5 +78,13 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public boolean deleteById(Integer id) {
         return this.itineraryDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public PageInfo<Itinerary> findAll(int page, int limit) {
+        PageHelper.startPage(page, limit);
+        List  list = itineraryDao.findAll();
+        PageInfo result = new PageInfo(list);
+        return result;
     }
 }

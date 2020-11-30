@@ -108,4 +108,7 @@
         where id = #{id}
     </delete>
 
+    <select id="findAll" resultMap="SceneMap">
+        select * from scene
+    </select>
 </mapper>

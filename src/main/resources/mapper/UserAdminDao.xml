@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dwh.backstage.dao.UserAdminDao">
+
+    <resultMap type="com.dwh.backstage.entity.UserAdmin" id="UserAdminMap">
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserAdminMap">
+        select name,
+               password
+        from my_travel.user_admin
+        where name = #{name}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserAdminMap">
+        select name,
+               password
+        from my_travel.user_admin
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserAdminMap">
+        select
+        name, password
+        from my_travel.user_admin
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="name" useGeneratedKeys="true">
+        insert into my_travel.user_admin(password)
+        values (#{password})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="name" useGeneratedKeys="true">
+        insert into my_travel.user_admin(password)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.password})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="name" useGeneratedKeys="true">
+        insert into my_travel.user_admin(password)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.password})
+        </foreach>
+        on duplicate key update
+        password = values(password)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_travel.user_admin
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+        </set>
+        where name = #{name}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_travel.user_admin
+        where name = #{name}
+    </delete>
+    
+
+
+</mapper>

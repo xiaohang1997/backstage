@@ -1,6 +1,8 @@
 package com.dwh.backstage.service;
 
+import com.dwh.backstage.entity.Hotel;
 import com.dwh.backstage.entity.Itinerary;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -53,4 +55,5 @@ public interface ItineraryService {
      */
     boolean deleteById(Integer id);
 
+    PageInfo<Itinerary> findAll(int page, int limit);
 }

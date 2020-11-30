@@ -15,57 +15,45 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
+<div class="layui-form layuimini-form" id="form1">
     <div class="layui-form-item">
         <label class="layui-form-label required">id</label>
         <div class="layui-input-block">
             <input type="text" name="id" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">name</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">day</label>
+        <div class="layui-input-block">
+            <input type="text" name="day" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">routeid</label>
+        <div class="layui-input-block">
+            <input type="text" name="routeid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">todayitinerary</label>
+        <div class="layui-input-block">
+            <input type="text" name="todayitinerary" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">sceneid</label>
+        <div class="layui-input-block">
+            <input type="text" name="sceneid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
 
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">ordername</label>
-        <div class="layui-input-block">
-            <input type="text" name="ordername" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">ordertype</label>
-        <div class="layui-input-block">
-            <input type="text" name="ordertype" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">createdate</label>
-        <div class="layui-input-inline">
-            <input type="text" name="createdate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label required">price</label>
-        <div class="layui-input-block">
-            <input type="text" name="price" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">state</label>
-        <div class="layui-input-block">
-            <input type="radio" name="state" value="1" title="未支付" checked="">
-            <input type="radio" name="state" value="2" title="已支付">
-            <input type="radio" name="state" value="3" title="待出行">
-            <input type="radio" name="state" value="4" title="已出行">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">userid</label>
-        <div class="layui-input-block">
-            <input type="text" name="userid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-        </div>
-    </div>
-	
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -75,12 +63,12 @@
 <script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'laydate'], function () {
-	
+
         var form = layui.form,
             layer = layui.layer,
 			laydate = layui.laydate,
             $ = layui.$;
-		
+
 		laydate.render({
 		    elem: '#date' //指定元素
 		  });
@@ -89,10 +77,11 @@
         form.on('submit(saveBtn)', function (data) {
 		$.ajax({
 		             type: "POST",
-		             url: "http://localhost:8082/order/add",
+		             url: "http://localhost:8082/itinerary/add",
 		             data: JSON.stringify(data.field),
 		             contentType: "application/json",
 		             success: function(data){
+		                 alert(data)
 		                         if(data.msg == "success"){
 									 var index = layer.alert("提交成功", function(){
 										 layer.close(index);

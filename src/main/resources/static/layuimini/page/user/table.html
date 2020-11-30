@@ -14,60 +14,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-        <fieldset class="table-search-fieldset">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" action="">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户account</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户username</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="sex" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户password</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="city" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户gender</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-						<div class="layui-inline">
-						    <label class="layui-form-label">用户birthdate</label>
-						    <div class="layui-input-inline">
-						        <input type="text" name="classify" autocomplete="off" class="layui-input">
-						    </div>
-						</div>
-						<div class="layui-inline">
-						    <label class="layui-form-label">用户email</label>
-						    <div class="layui-input-inline">
-						        <input type="text" name="classify" autocomplete="off" class="layui-input">
-						    </div>
-						</div>
-						<div class="layui-inline">
-						    <label class="layui-form-label">用户headimg</label>
-						    <div class="layui-input-inline">
-						        <input type="text" name="classify" autocomplete="off" class="layui-input">
-						    </div>
-						</div>
-                        <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </fieldset>
+
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
@@ -94,7 +41,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://localhost:8080/user/findAllUserByLimit',
+            url: 'http://localhost:8082/user/findAllUserByLimit',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -165,7 +112,7 @@
                 layer.confirm("确定要删除？", function (index) {
                     $.ajax({
                         type: "get",
-                        url: "http://localhost:8080/user/deleteMany?data=" + myArray,
+                        url: "http://localhost:8082/user/deleteMany?data=" + myArray,
                         // data: {"data" : myArray},
                         // contentType: "application/text",
                         // dataType : "text",
@@ -198,7 +145,17 @@
 
         table.on('tool(currentTableFilter)', function (obj) {
             if (obj.event === 'edit') {
-                document.cookie = "id=" + obj.data.id + "; path=/layuimini/page/hotel/edit.html";
+
+                document.cookie = "id=" + obj.data.id + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "account=" + obj.data.account + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "username=" + obj.data.username + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "password=" + obj.data.id + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "gender=" + obj.data.gender + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "birthdate=" + obj.data.birthdate + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "email=" + obj.data.email + "; path=/layuimini/page/user/edit.html";
+                document.cookie = "headimg=" + obj.data.headimg + "; path=/layuimini/page/user/edit.html";
+
+
                 var index = layer.open({
                     title: '编辑用户',
                     type: 2,
@@ -216,7 +173,7 @@
                 layer.confirm('真的删除行么', function (index) {
 					$.ajax({
 					             type: "post",
-					             url: "http://localhost:8080/user/deleteById",
+					             url: "http://localhost:8082/user/deleteById",
 					             data: {'id' : obj.data.id},
 					             // contentType: "application/text",
 								 // dataType : "text",

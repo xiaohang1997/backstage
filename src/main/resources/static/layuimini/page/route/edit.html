@@ -25,43 +25,66 @@
 		</div>
 	</div>
 
-</div>
 <div class="layui-form-item">
-	<label class="layui-form-label required">hotelname</label>
+	<label class="layui-form-label required">routename</label>
 	<div class="layui-input-block">
-		<input type="text" name="hotelname" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
+		<input id="routename" type="text" name="routename" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 	</div>
 </div>
 <div class="layui-form-item">
-	<label class="layui-form-label required">hotelintroduce</label>
+	<label class="layui-form-label required">routeprice</label>
 	<div class="layui-input-block">
-		<input type="text" name="hotelintroduce" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
+		<input id="routeprice" type="text" name="routeprice" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 	</div>
 </div>
-<div class="layui-form-item">
-	<label class="layui-form-label required">hoteladdress</label>
-	<div class="layui-input-block">
-		<input type="text" name="hoteladdress" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 
-	</div>
-</div>
 <div class="layui-form-item">
-	<label class="layui-form-label">hoteltypeid</label>
-	<div class="layui-input-block">
-		<input type="radio" name="hoteltypeid" value="1" title="1" checked="">
-		<input type="radio" name="hoteltypeid" value="2" title="2">
-		<input type="radio" name="hoteltypeid" value="3" title="3">
-		<input type="radio" name="hoteltypeid" value="4" title="4">
-		<input type="radio" name="hoteltypeid" value="5" title="5">
+	<label class="layui-form-label">routetypeid</label>
+	<div id="routetypeid" class="layui-input-block">
+		<input type="radio" name="routetypeid" value="1" title="国内游" checked="">
+		<input type="radio" name="routetypeid" value="2" title="省内游">
+		<input type="radio" name="routetypeid" value="3" title="全国游">
+		<input type="radio" name="routetypeid" value="4" title="周边游">
 	</div>
 </div>
 <div class="layui-form-item">
 	<label class="layui-form-label required">imgurl</label>
 	<div class="layui-input-block">
-		<input type="text" name="imgurl" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+		<input id="imgurl" type="text" name="imgurl" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+	</div>
+</div>
 
+<form id= "uploadForm" enctype="multipart/form-data" style="padding-left: 80px">
+	<!--		<p >指定文件名： <input type="text" name="filename" value= ""/></p >-->
+	<p >上传文件： <input type="file" name="file"/></p>
+	<input type="button" value="上传" onclick="javascript:doUpload()" />
+</form>
+<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" ></script>
+<script>
+	function doUpload() {
+		alert("upload")
+		var formData = new FormData($("#uploadForm")[0])
+		$.ajax({
+			url: 'http://localhost:8082/picUpdate' ,
+			type: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (data) {
+				$("#imgurl").val(data);
+			},
+			error: function (error) {
+				alert(error);
+			}
+		});
+	}
+</script>
+
+
+<div class="layui-form-item">
+	<label class="layui-form-label required">toaddress</label>
+	<div class="layui-input-block">
+		<input type="text" name="toaddress" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
 	</div>
 </div>
 
@@ -90,11 +113,13 @@
 			return result ? result.pop() : ""
 		}
 		var id = getCookieValue("id");
-
 		$("#id").val(id);
 		$("#id").attr("readonly",true);
-		// $("#userid").val(userid);
-		// $("#userid").attr("readonly",true);
+		$("#routename").val(getCookieValue("routename"));
+		$("#routeprice").val(getCookieValue("routeprice"));
+		// $("#routetypeid").val(getCookieValue("routetypeid"));
+		$("#imgurl").val(getCookieValue("imgurl"));
+		$("#toaddress").val(getCookieValue("toaddress"));
 
 		//监听提交
 		form.on('submit(saveBtn)', function (data) {
@@ -102,7 +127,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8080/route/update",
+				url: "http://localhost:8082/route/update",
 				data: JSON.stringify(data.field),
 				contentType: "application/json",
 				success: function(data){
@@ -119,7 +144,6 @@
 							layer.close(index);
 						});
 					}
-
 				}
 			});
 		});

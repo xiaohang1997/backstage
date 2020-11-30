@@ -39,7 +39,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://localhost:8082/roleuser/findAll',
+            url: 'http://localhost:8082/scene/findAll',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -49,8 +49,10 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 120, title: 'ID', sort: true},
-                {field: 'userid', width: 120, title: 'userId', sort: true},
-                {field: 'rolename', width: 120, title: 'rolename', sort: true},
+                {field: 'introduce', width: 120, title: 'introduce', sort: true},
+                {field: 'scenename', width: 120, title: 'scenename', sort: true},
+                {field: 'address', width: 120, title: 'address', sort: true},
+                {field: 'imgurl', width: 120, title: 'imgurl', sort: true},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
@@ -85,7 +87,7 @@
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {  // 监听添加操作
                 var index = layer.open({
-                    title: '添加用户',
+                    title: '添加hotel',
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
@@ -106,7 +108,7 @@
                 layer.confirm("确定要删除？", function (index) {
                     $.ajax({
                         type: "get",
-                        url: "http://localhost:8082/roleuser/deleteMany?data=" + myArray,
+                        url: "http://localhost:8082/scene/deleteMany?data=" + myArray,
                         // data: {"data" : myArray},
                         // contentType: "application/text",
                         // dataType : "text",
@@ -143,11 +145,15 @@
         table.on('tool(currentTableFilter)', function (obj) {
             if (obj.event === 'edit') {
                 //cookie
-                document.cookie = "id=" + obj.data.id + "; path=/layuimini/page/user_quanxian/edit.html";
-                document.cookie = "userid=" + obj.data.userid + "; path=/layuimini/page/user_quanxian/edit.html";
+                document.cookie = "id=" + obj.data.id + "; path=/layuimini/page/scene/edit.html";
+                document.cookie = "introduce=" + obj.data.introduce + "; path=/layuimini/page/scene/edit.html";
+                document.cookie = "scenename=" + obj.data.scenename + "; path=/layuimini/page/scene/edit.html";
+                document.cookie = "address=" + obj.data.address + "; path=/layuimini/page/scene/edit.html";
+                document.cookie = "imgurl=" + obj.data.imgurl + "; path=/layuimini/page/scene/edit.html";
+
 
                 var index = layer.open({
-                    title: '编辑用户',
+                    title: '编辑hotel',
                     type: 2,
                     shade: 0.2,
                     maxmin:true,
@@ -163,7 +169,7 @@
                 layer.confirm('真的删除行么', function (index) {
 					$.ajax({
 					             type: "post",
-					             url: "http://localhost:8082/roleuser/deleteById",
+					             url: "http://localhost:8082/scene/deleteById",
 					             data: {'id' : obj.data.id},
 					             // contentType: "application/text",
 								 // dataType : "text",
@@ -172,7 +178,8 @@
 												 var index01 = layer.alert("删除成功", function(){
 													 layer.close(index01);
 													 // var iframeIndex = parent.layer.getFrameIndex(window.name);
-													 // parent.layer.close(iframeIndex); 
+													 // parent.layer.close(iframeIndex);
+                                                     parent.location.reload();
 												 });
 											 }
 											 else{
@@ -182,8 +189,6 @@
 											 }
 					                      }
 					         });
-					obj.del();
-                    layer.close(index);
                 });
             }
         });

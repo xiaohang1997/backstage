@@ -56,11 +56,39 @@
 	    </div>
 	</div>
 	<div class="layui-form-item">
-	    <label class="layui-form-label">headimg</label>
-	    <div class="layui-input-block">
-	        选择图片<input type="file" name="headimg" value="" class="layui-input">
-	    </div>
+		<label class="layui-form-label">headimg</label>
+		<div class="layui-input-block">
+			<input id="headimg" type="text" name="headimg" placeholder="请输入头像路径" value="" class="layui-input" >
+		</div>
 	</div>
+
+
+	<form id= "uploadForm" enctype="multipart/form-data" style="padding-left: 80px">
+		<!--		<p >指定文件名： <input type="text" name="filename" value= ""/></p >-->
+		<p >上传文件： <input type="file" name="file"/></p>
+		<input type="button" value="上传" onclick="javascript:doUpload()" />
+	</form>
+	<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" ></script>
+	<script>
+		function doUpload() {
+			alert("upload")
+			var formData = new FormData($("#uploadForm")[0])
+			$.ajax({
+				url: 'http://localhost:8082/picUpdate' ,
+				type: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					$("#headimg").val(data);
+				},
+				error: function (error) {
+					alert(error);
+				}
+			});
+		}
+	</script>
+
 	
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -85,7 +113,7 @@
         form.on('submit(saveBtn)', function (data) {
 		$.ajax({
 		             type: "POST",
-		             url: "http://localhost:8080/user/insertUser",
+		             url: "http://localhost:8082/user/insertUser",
 		             data: JSON.stringify(data.field),
 		             contentType: "application/json",
 		             success: function(data){

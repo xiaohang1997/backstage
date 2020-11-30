@@ -75,7 +75,7 @@ public class HotelController {
     }
 
     @RequestMapping("/test")
-    public String test(@RequestParam(value = "file",required = false) MultipartFile file){
+    public String test(@RequestParam(value = "file") MultipartFile file){
         try {
             String endpoint = "http://oss-cn-beijing.aliyuncs.com";
             String accessKeyId = "LTAI4GBA49LNsP4SHm4P2bDR";
@@ -83,8 +83,11 @@ public class HotelController {
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
             String fileName = file.getOriginalFilename();
+            System.out.println(fileName);
             if(fileName.indexOf("\\") != -1){
+
                 fileName = "uploadImg/"+fileName.substring(fileName.lastIndexOf("\\"));
+                String fileHead = "https://m-trip.oss-cn-beijing.aliyuncs.com/" + fileName;
             }
 
             // <yourObjectName>表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。

@@ -26,45 +26,14 @@
 	</div>
 
 	<div class="layui-form-item">
-		<label class="layui-form-label required">ordername</label>
+		<label class="layui-form-label">state</label>
 		<div class="layui-input-block">
-			<input type="text" name="ordername" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
+			<input type="radio" name="state" value="1" title="未支付" checked="">
+			<input type="radio" name="state" value="2" title="已支付">
+			<input type="radio" name="state" value="3" title="待出行">
+			<input type="radio" name="state" value="4" title="已出行">
 		</div>
 	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label required">ordertype</label>
-		<div class="layui-input-block">
-			<input type="text" name="ordertype" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">createdate</label>
-		<div class="layui-input-inline">
-			<input type="text" name="createdate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-		</div>
-	</div>
-
-	<div class="layui-form-item">
-		<label class="layui-form-label required">price</label>
-		<div class="layui-input-block">
-			<input type="text" name="price" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label required">state</label>
-		<div class="layui-input-block">
-			<input type="text" name="state" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label required">userid</label>
-		<div class="layui-input-block">
-			<input type="text" name="userid" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
-		</div>
-	</div>
-
 
 
 	<div class="layui-form-item">
@@ -104,7 +73,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8080/order/update",
+				url: "http://localhost:8082/order/update",
 				data: JSON.stringify(data.field),
 				contentType: "application/json",
 				success: function(data){

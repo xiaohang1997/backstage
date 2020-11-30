@@ -41,7 +41,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="username" lay-verify="required|account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="name" lay-verify="required|account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
@@ -87,15 +87,16 @@
 
         // 进行登录操作
         form.on('submit(login)', function (data) {
-            data = data.field;
-            if (data.username == '') {
-                layer.msg('用户名不能为空');
-                return false;
-            }
-            if (data.password == '') {
-                layer.msg('密码不能为空');
-                return false;
-            }
+            // alert(data.field);
+            // data = JSON.stringify(data.field);
+            // if (data.name == '') {
+            //     layer.msg('用户名不能为空');
+            //     return false;
+            // }
+            // if (data.password == '') {
+            //     layer.msg('密码不能为空');
+            //     return false;
+            // }
             // if (data.captcha == '') {
             //     layer.msg('验证码不能为空');
             //     return false;
@@ -106,9 +107,9 @@
                 // //请求的媒体类型
                 // contentType: "application/json;charset=UTF-8",
                 //请求地址
-                url : "http://localhost:8082/userAdmin/login",
+                url : "http://localhost:8082/userAdmin/login?name=" + data.field.name + "&password=" + data.field.password,
                 //数据，json字符串
-                data : data.field,
+                // data :data.field,
                 //请求成功
                 success : function(result) {
                     if (result != null){

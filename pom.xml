@@ -102,6 +102,10 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

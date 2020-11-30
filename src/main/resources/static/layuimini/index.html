@@ -189,7 +189,28 @@
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location = 'page/login.html';
+                $.ajax(
+                    {
+                        //请求方式
+                        type : "POST",
+                        // //请求的媒体类型
+                        // contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://localhost:8082/userAdmin/logOut",
+                        //数据，json字符串
+                        // data :data.field,
+                        //请求成功
+                        success : function(result) {
+                            window.location = '.page/login.html';
+                        },
+                        //请求失败，包含具体的错误信息
+                        error : function(e){
+                            console.log(e.status);
+                            console.log(e.responseText);
+                        }
+                    }
+                )
+                window.location = '.page/login.html';
             });
         });
     });

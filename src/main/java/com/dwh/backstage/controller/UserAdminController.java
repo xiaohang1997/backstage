@@ -52,8 +52,9 @@ public class UserAdminController {
             cookie.setMaxAge(10*60);
             response.addCookie(cookie);
             System.out.println(cookie.toString());
+            System.out.println();
             session.setAttribute("username",userAdmin.getName());
-
+            System.out.println("username=" + session.getAttribute("username"));
             return JsonResult.sendSuccess();
         }
         else {
@@ -64,7 +65,15 @@ public class UserAdminController {
     @RequestMapping("/getSession")
     public String getSession(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
+        System.out.println((String) session.getAttribute("username"));
         return (String) session.getAttribute("username");
+    }
+
+    @RequestMapping("/logOut")
+    public JSONObject logOut(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        return JsonResult.sendSuccess();
     }
 
 }

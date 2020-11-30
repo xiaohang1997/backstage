@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebFilter("/*")
+//@WebFilter("/layuimini/page/")
 //public class MyFilter implements Filter {
 //    @Override
 //    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -17,7 +17,7 @@ import java.io.IOException;
 //        if (username != null){
 //            filterChain.doFilter(httpServletRequest, httpServletResponse);
 //        }else {
-//            httpServletResponse.sendRedirect("/layuimini/page/login.html");
+//            httpServletResponse.sendRedirect("/login.html");
 //        }
 //    }
 //}
